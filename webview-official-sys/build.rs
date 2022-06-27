@@ -1,7 +1,7 @@
 use cc::Build;
 use std::env;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn main() {
     let mut build = Build::new();
@@ -36,6 +36,11 @@ fn main() {
         } else {
             "x86"
         };
+
+        let current_dir = env::current_dir().unwrap();
+        let webview_dir2 = current_dir.as_path();
+        println!("cargo:rustc-link-search={}", webview_dir2.to_str().unwrap());
+        println!("cargo:rustc-link-lib={}", "WebView2Loader.dll");
 
         // calculate full path to WebView2Loader.dll
         // let mut webview2_path_buf = PathBuf::from(env::current_dir().unwrap().to_str().unwrap());
