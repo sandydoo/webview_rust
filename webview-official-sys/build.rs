@@ -39,8 +39,13 @@ fn main() {
 
         let current_dir = env::current_dir().unwrap();
         let webview_dir2 = current_dir.as_path();
+        let mut path_to_dll = current_dir.clone();
+        path_to_dll.push("WebView2Loader.dll");
         println!("cargo:rustc-link-search={}", webview_dir2.to_str().unwrap());
-        println!("cargo:rustc-link-lib={}", "WebView2Loader.dll");
+        println!(
+            "cargo:rustc-link-lib={}",
+            path_to_dll.as_path().to_str().unwrap()
+        );
 
         // calculate full path to WebView2Loader.dll
         // let mut webview2_path_buf = PathBuf::from(env::current_dir().unwrap().to_str().unwrap());
