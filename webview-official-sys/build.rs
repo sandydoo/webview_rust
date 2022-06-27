@@ -27,9 +27,9 @@ fn main() {
             .flag_if_supported("/std:c++17");
         build.include("webview-official/script");
 
-        for &lib in &["windowsapp", "user32", "oleaut32", "ole32"] {
-            println!("cargo:rustc-link-lib={}", lib);
-        }
+        // for &lib in &["windowsapp", "user32", "oleaut32", "ole32"] {
+        //     println!("cargo:rustc-link-lib={}", lib);
+        // }
 
         let webview2_arch = if target.contains("x86_64") {
             "x64"
@@ -38,33 +38,32 @@ fn main() {
         };
 
         // calculate full path to WebView2Loader.dll
-        let mut webview2_path_buf = PathBuf::from(env::current_dir().unwrap().to_str().unwrap());
-        webview2_path_buf
-            .push("webview-official/dll");
-        webview2_path_buf.push(webview2_arch);
-        let webview2_dir = webview2_path_buf.as_path().to_str().unwrap();
+        // let mut webview2_path_buf = PathBuf::from(env::current_dir().unwrap().to_str().unwrap());
+        // webview2_path_buf.push("webview-official/script");
+        // webview2_path_buf.push(webview2_arch);
+        // let webview2_dir = webview2_path_buf.as_path().to_str().unwrap();
 
-        let loader_asm_name = "WebView2Loader.dll";
+        // let loader_asm_name = "WebView2Loader.dll";
 
-        println!("cargo:rustc-link-search={}", webview2_dir);
-        println!("cargo:rustc-link-lib={}", loader_asm_name);
+        // println!("cargo:rustc-link-search={}", webview2_dir);
+        // println!("cargo:rustc-link-lib={}", loader_asm_name);
 
-        // copy WebView2Loader.dll to `target/debug`
-        let mut src_asm_buf = PathBuf::from(webview2_dir);
-        src_asm_buf.push(loader_asm_name);
+        // // copy WebView2Loader.dll to `target/debug`
+        // let mut src_asm_buf = PathBuf::from(webview2_dir);
+        // src_asm_buf.push(loader_asm_name);
 
-        // we want to be able to calculate C:\crate\root\target\debug\
-        //           while we can get this ^^^^^^^^^^^^^   and  ^^^^^ from env::current_dir() and %PROFILE% respectively
-        // there's no way to get this (reliably)         ^^^^^^
-        // we can, however, use %OUT_DIR% (C:\crate\root\target\debug\build\webview_rust-xxxx\out\)
-        // and navigate backwards to here  ^^^^^^^^^^^^^^^^^^^^^^^^^^
-        let mut target_asm_buf = PathBuf::from(env::var("OUT_DIR").unwrap());
-        target_asm_buf.pop();
-        target_asm_buf.pop();
-        target_asm_buf.pop();
-        target_asm_buf.push(loader_asm_name);
+        // // we want to be able to calculate C:\crate\root\target\debug\
+        // //           while we can get this ^^^^^^^^^^^^^   and  ^^^^^ from env::current_dir() and %PROFILE% respectively
+        // // there's no way to get this (reliably)         ^^^^^^
+        // // we can, however, use %OUT_DIR% (C:\crate\root\target\debug\build\webview_rust-xxxx\out\)
+        // // and navigate backwards to here  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        // let mut target_asm_buf = PathBuf::from(env::var("OUT_DIR").unwrap());
+        // target_asm_buf.pop();
+        // target_asm_buf.pop();
+        // target_asm_buf.pop();
+        // target_asm_buf.push(loader_asm_name);
 
-        fs::copy(src_asm_buf.as_path(), target_asm_buf.as_path()).unwrap();
+        // fs::copy(src_asm_buf.as_path(), target_asm_buf.as_path()).unwrap();
     } else if target.contains("apple") {
         build.file("webview-official/webview.cc").flag("-std=c++11");
 
