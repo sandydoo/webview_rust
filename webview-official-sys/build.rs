@@ -1,12 +1,6 @@
 fn main() {
     // println!("cargo:rustc-link-lib=webview");
-    for &lib in &[
-        "WebView2Loader.dll",
-        "windowsapp",
-        "user32",
-        "oleaut32",
-        "ole32",
-    ] {
+    for &lib in &["WebView2Loader.dll"] {
         println!("cargo:rustc-link-lib={}", lib);
     }
 }
