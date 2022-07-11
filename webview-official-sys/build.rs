@@ -1,8 +1,9 @@
 fn main() {
     // println!("cargo:rustc-link-lib=webview");
-    for &lib in &["WebView2Loader.dll"] {
-        println!("cargo:rustc-link-lib={}", lib);
-    }
+    // for &lib in &["WebView2Loader.dll"] {
+    //     println!("cargo:rustc-link-lib={}", lib);
+    // }
+    println!("cargo:rustc-link-lib=webview");
 }
 // use cc::Build;
 // use std::env;
